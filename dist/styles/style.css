@@ -21,3 +21,9 @@ canvas {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+.score-element {
+    font-size:32px;
+    padding: 100px;
+    text-align: center;
+}
