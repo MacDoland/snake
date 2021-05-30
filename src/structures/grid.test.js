@@ -29,6 +29,36 @@ describe('Grid', () => {
         expect(grid.getGrid().length).toEqual(0);
     });
 
+    describe('getCenter', () => {
+        it('should return expected center coordinate for 4x4 grid', () => {
+            //Arrange
+            const grid = new Grid(4,4);
+            const expectedX = 1;
+            const expectedY = 1;
+
+            //Act
+            const actual = grid.getCenter();
+
+            //Assert
+            expect(actual.x).toEqual(expectedX);
+            expect(actual.y).toEqual(expectedY);
+        });
+
+        it('should return expected center coordinate for 10x10 grid', () => {
+            //Arrange
+            const grid = new Grid(10,10);
+            const expectedX = 4;
+            const expectedY = 4;
+
+            //Act
+            const actual = grid.getCenter();
+
+            //Assert
+            expect(actual.x).toEqual(expectedX);
+            expect(actual.y).toEqual(expectedY);
+        });
+    });
+
     describe('getIndex', () => {
         it('should return expected index 0 for x:0, y:0', () => {
             //Arrange

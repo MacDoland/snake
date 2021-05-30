@@ -50,6 +50,10 @@ class SinglyLinkedListNode {
     setNext(node) {
         this.#next = node;
     }
+
+    setValue(value){
+        this.#value = value;
+    }
 }
 
 export default SinglyLinkedList;
