@@ -36,20 +36,8 @@ const solveDirection = (positionA, positionB) => {
     else if(positionA.x > positionB.x && positionA.y === positionB.y){
         direction = directions.RIGHT;
     }
-    else if(positionA.x > positionB.x && positionB.y < positionB.y){
-        direction = directions.RIGHTUP;
-    }
-    else if(positionA.x > positionB.x && positionA.y > positionB.y){
-        direction = directions.RIGHTDOWN;
-    }
     else if(positionA.x < positionB.x && positionA.y === positionB.y){
         direction = directions.LEFT;
-    }
-    else if(positionA.x < positionB.x && positionA.y < positionB.y){
-        direction = directions.LEFTUP;
-    }
-    else if(positionA.x < positionB.x && positionA.y > positionB.y){
-        direction = directions.LEFTDOWN;
     }
     else if(positionA.x === positionB.x && positionA.y > positionB.y){
         direction = directions.DOWN;

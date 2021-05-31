@@ -15,12 +15,20 @@ class EventDispatcher {
 		this._events[eventName] = [];
 	}
 
+	reset() {
+		this._events = [];
+	}
+
 	registerHandler(eventName, handler) {
 		this.addEvent(eventName);
 		this._events[eventName].push(handler);
 	}
 
 	deregisterHandler(eventName, handler) {
+		if(!Object.keys(this._events).includes(eventName)){
+			return;
+		}
+
 		let index = this._events[eventName].indexOf(handler);
 
 		if (index !== -1){

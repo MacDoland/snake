@@ -70,6 +70,10 @@ class CanvasRenderer {
         this.#drawSnakePart(positions[0], headSprite);
     }
 
+    takeScreenshot(){
+        return this.#canvas.toDataURL('png');
+    }
+
     #drawSnakePart(coordinate, { spriteSheet, x, y, width, height }) {
         this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
     }

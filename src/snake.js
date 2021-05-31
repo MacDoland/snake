@@ -9,20 +9,33 @@ class Snake {
     #nextDirection;
     #eventDispatcher;
     #events;
+    #initialPosition;
+    #initialDirection;
 
     constructor(initialPosition, initialDirection = directions.UP) {
         this.#direction = initialDirection;
         this.#nextDirection = initialDirection;
-        const oppositeDirection = getDirectionOpposite(initialDirection);
-        this.#body = new SinglyLinkedList();
-        const directionVector = directionAsVector(oppositeDirection);
-        this.#body.push(new SnakeSegment(initialPosition));
-        this.#body.push(new SnakeSegment(Vector.add(initialPosition, directionVector)));
-        this.#body.push(new SnakeSegment(Vector.add(initialPosition, directionVector.multiplyScalar(2))));
+        this.#initialPosition = initialPosition;
+        this.#initialDirection = initialDirection;
+       
         this.#eventDispatcher = new EventDispatcher();
         this.#events = {
             EAT: "EAT"
         }
+
+        this.init();
+    }
+
+    init(){
+        const oppositeDirection = getDirectionOpposite(this.#initialDirection);
+        const directionVector = directionAsVector(oppositeDirection);
+
+        this.#body = new SinglyLinkedList();
+        this.#body.push(new SnakeSegment(this.#initialPosition));
+        this.#body.push(new SnakeSegment(Vector.add(this.#initialPosition, directionVector)));
+        this.#body.push(new SnakeSegment(Vector.add(this.#initialPosition, directionVector.multiplyScalar(2))));
+
+        this.#direction = this.#initialDirection;
     }
 
     changeDirection(newDirection) {
