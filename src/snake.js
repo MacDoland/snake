@@ -51,22 +51,13 @@ class Snake {
         const directionVector = directionAsVector(this.#nextDirection);
         let currentPosition = node.value().position;
         let newPosition = Vector.add(currentPosition, directionVector);
-        let i = 1;
-
-        while (i <= this.#body.length) {
-            currentPosition = node.value().position;
-
-            node.setValue({
-                position: newPosition
-            });
-
-            newPosition = currentPosition;
-            node = node.next();
-
-            i++;
-        }
-
+        this.#body.unshift({position: newPosition}); // add new head
+        this.#body.pop(); // remove the tail
         this.#direction = this.#nextDirection;
+    }
+
+    pop() {
+        this.#body.pop();
     }
 
     eat() {

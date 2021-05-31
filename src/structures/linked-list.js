@@ -1,12 +1,12 @@
 class SinglyLinkedList {
-    constructor(){
+    constructor() {
         this.#clear();
     }
 
-    push(value){
+    push(value) {
         const node = new SinglyLinkedListNode(value);
 
-        if(!this.head){
+        if (!this.head) {
             this.head = node;
             this.tail = this.head;
         }
@@ -19,11 +19,44 @@ class SinglyLinkedList {
 
         return this;
     }
-    
-    //pop, shift, unshift - not required for snake
-   
 
-    #clear(){
+    pop() {
+        if (this.length === 0) return undefined;
+        let currentNode = this.head;
+        let newTail = currentNode;
+
+        while(currentNode.next()) {
+            newTail = currentNode;
+            currentNode = currentNode.next();
+        }
+
+        this.tail = newTail;
+        this.tail.setNext(null);
+        this.length -= 1;
+        return currentNode;
+    }
+
+    //shift - not necessary 
+
+    unshift(value){
+        const node = new SinglyLinkedListNode(value);
+
+        if (!this.head) {
+            this.head = node;
+            this.tail = this.head;
+        }
+        else {
+            node.setNext(this.head);
+            this.head = node;
+        }
+
+        this.length += 1;
+        return this;
+    }
+
+
+
+    #clear() {
         this.head = null;
         this.tail = null;
         this.length = 0;
@@ -34,7 +67,7 @@ class SinglyLinkedListNode {
     #next;
     #value;
 
-    constructor(value){
+    constructor(value) {
         this.#next = null;
         this.#value = value;
     }
@@ -44,14 +77,14 @@ class SinglyLinkedListNode {
     }
 
     next() {
-        return  this.#next;
+        return this.#next;
     }
 
     setNext(node) {
         this.#next = node;
     }
 
-    setValue(value){
+    setValue(value) {
         this.#value = value;
     }
 }

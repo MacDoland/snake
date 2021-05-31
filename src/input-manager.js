@@ -11,6 +11,7 @@ class InputManager {
             RIGHT: 'RIGHT',
             DOWN: 'DOWN',
             LEFT: 'LEFT',
+            E: 'E',
             ANY: 'ANY'
         }
 
@@ -29,6 +30,10 @@ class InputManager {
 
             if (e.keyCode == 40) {
                 this.#eventDispatcher.dispatch(this.#events.DOWN)
+            }
+
+            if (e.keyCode == 69) {
+                this.#eventDispatcher.dispatch(this.#events.E)
             }
 
             this.#eventDispatcher.dispatch(this.#events.ANY)
@@ -65,6 +70,14 @@ class InputManager {
 
     removeOnLeft(handler) {
         this.#eventDispatcher.deregisterHandler(this.#events.LEFT, handler);
+    }
+
+    onE(handler) {
+        this.#eventDispatcher.registerHandler(this.#events.E, handler);
+    }
+
+    removeOnE(handler) {
+        this.#eventDispatcher.deregisterHandler(this.#events.E, handler);
     }
 
     onAnyKey(handler) {

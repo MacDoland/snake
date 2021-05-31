@@ -45,6 +45,9 @@ class GameManager {
         inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
         inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
         inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
+        inputManager.onE(() => {
+            this.#snake.pop();
+        });
     }
 
     init() {
@@ -101,6 +104,7 @@ class GameManager {
             this.#currentSnakePositions = this.#snake.getPositions();
             this.#score = this.#snake.getLength() - this.#initialSnakeLength;
 
+            //running into itself or the outer walls will end the game
             if (this.#snake.hasOverlapped() || !this.#isWithinGrid(this.#snake, this.#grid)) {
                 this.#gameInProgess = false;
                 this.end();
