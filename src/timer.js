@@ -9,11 +9,7 @@ class Timer {
     #eventDispatcher;
     #events;
 
-    start(target) {
-        this.#current = 0;
-        this.#startTime = new Date();
-        this.#target = target;
-        this.#isActive = true;
+    constructor(){
         this.#eventDispatcher = new EventDispatcher();
         this.#events = {
             TICK: "TICK",
@@ -21,9 +17,22 @@ class Timer {
         }
     }
 
+    start(target) {
+        this.#current = 0;
+        this.#startTime = new Date();
+        this.#target = target;
+        this.#isActive = true;
+        
+        window.requestAnimationFrame(this.#timerLoop.bind(this));
+    }
+
     reset() {
         this.#current = 0;
         this.#startTime = new Date();
+    }
+
+    stop() {
+        this.#isActive = false;
     }
 
     hasElapsed() {
@@ -32,7 +41,7 @@ class Timer {
 
     tick() {
         if (this.#isActive) {
-            this.#eventDispatcher.dispatch(this.#events.TICK);
+            this.#eventDispatcher.dispatch(this.#events.TICK, this.#current / this.#target );
             this.#current = new Date() - this.#startTime;
             this.#elaspsed = this.#current > this.#target;
 
@@ -41,7 +50,14 @@ class Timer {
                 this.reset();
             }
         }
+    }
 
+    #timerLoop() {
+        this.tick();
+
+        if (this.#isActive) {
+            setTimeout(this.#timerLoop.bind(this),0);
+        }
     }
 
     onTick(handler) {

@@ -7,10 +7,18 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="score-element">Score:<span id="score">0</span></div>
-        <canvas id="canvas" width="500" height="500"></canvas>
+    <div class="screen" id="intro-screen">
+        <h1>Welcome to Snake</h1>
+        <button id="start-button">Start</button>
+        <button>High Scores</button>
     </div>
+    <div class="screen" id="game-screen">
+        <div class="container">
+            <div class="score-element">Score:<span id="score">0</span></div>
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+    </div>
+    <div class="screen" id="high-score-screen"></div>
     <script type="text/javascript" src="./dist/main.js"></script>
 </body>
 

@@ -6,11 +6,13 @@ import Vector from './structures/vector.js';
 class Snake {
     #body;
     #direction;
+    #nextDirection;
     #eventDispatcher;
     #events;
 
     constructor(initialPosition, initialDirection = directions.UP) {
         this.#direction = initialDirection;
+        this.#nextDirection = initialDirection;
         const oppositeDirection = getDirectionOpposite(initialDirection);
         this.#body = new SinglyLinkedList();
         const directionVector = directionAsVector(oppositeDirection);
@@ -27,13 +29,13 @@ class Snake {
         const oppositeDirection = getDirectionOpposite(this.#direction);
 
         if (isDirection(newDirection) && newDirection !== oppositeDirection) {
-            this.#direction = newDirection;
+            this.#nextDirection = newDirection;
         }
     }
 
     move() {
         let node = this.#body.head;
-        const directionVector = directionAsVector(this.#direction);
+        const directionVector = directionAsVector(this.#nextDirection);
         let currentPosition = node.value().position;
         let newPosition = Vector.add(currentPosition, directionVector);
         let i = 1;
@@ -50,6 +52,8 @@ class Snake {
 
             i++;
         }
+
+        this.#direction = this.#nextDirection;
     }
 
     eat() {
@@ -62,8 +66,16 @@ class Snake {
         return this.#body;
     }
 
+    getLength() {
+        return this.#body.length;
+    }
+
     getDirection() {
         return this.#direction;
+    }
+
+    getNextDirection() {
+        return this.#nextDirection;
     }
 
     getPositions() {

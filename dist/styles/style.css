@@ -4,6 +4,16 @@ body, html{
     width: 100%;
 }
 
+.hidden {
+    display:none;
+}
+
+.screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .container{
     position: relative;
     height: 100%;
@@ -15,11 +25,15 @@ body, html{
 }
 
 canvas {
-    background: rgb(117, 117, 117);
+    /* background: rgb(117, 117, 117); */
+    /* border: 1px solid #8b8b8b; */
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+
+    background: repeating-conic-gradient(#ced7dd 0% 25%, transparent 0% 50%) 
+              50% / 60px 60px
 }
 
 .score-element {

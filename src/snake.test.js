@@ -228,7 +228,7 @@ describe('Snake', () => {
             snake.changeDirection(directions.LEFT);
 
             //Assert
-            expect(snake.getDirection()).toEqual(directions.LEFT);
+            expect(snake.getNextDirection()).toEqual(directions.LEFT);
         })
     })
 })

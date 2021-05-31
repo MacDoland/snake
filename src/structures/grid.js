@@ -36,7 +36,6 @@ class Grid {
     }
     
     getGridCoordinates() {
-        console.log("getGridCoordinates");
         return [...this.getGrid().keys()].map((element, index) => this.getGridCoordinate(index));
     }
 
