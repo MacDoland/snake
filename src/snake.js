@@ -56,10 +56,6 @@ class Snake {
         this.#direction = this.#nextDirection;
     }
 
-    pop() {
-        this.#body.pop();
-    }
-
     eat() {
         const last = this.#body.tail.value();
         this.#body.push(last);

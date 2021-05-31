@@ -45,9 +45,6 @@ class GameManager {
         inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
         inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
         inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
-        inputManager.onE(() => {
-            this.#snake.pop();
-        });
     }
 
     init() {
