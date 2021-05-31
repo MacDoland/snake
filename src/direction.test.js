@@ -88,12 +88,12 @@ describe('solveBodyDirection', () => {
         expect(actual).toBe(expected);
     });
 
-    it('should return RIGHTDOWN when all positions are cornered down-right', () => {
+    it('should return LEFTDOWN when all positions are cornered down-right', () => {
         //Arrange
         const head  = { x: 6, y: 4 };
         const middle  = { x: 6, y: 3 };
         const tail  = { x: 5, y: 3 };
-        const expected = directions.RIGHTDOWN;
+        const expected = directions.LEFTDOWN;
 
         //Act
         const actual = solveBodyDirection(head, middle, tail);
@@ -102,11 +102,25 @@ describe('solveBodyDirection', () => {
         expect(actual).toBe(expected);
     });
 
-    it('should return LEFTUP when all positions are cornered right-up', () => {
+    it('should return LEFTDOWN when all positions are cornered right-up', () => {
         //Arrange
         const head  = { x: 4, y: 4 };
         const middle  = { x: 5, y: 4 };
         const tail  = { x: 5, y: 5 };
+        const expected = directions.LEFTDOWN;
+
+        //Act
+        const actual = solveBodyDirection(head, middle, tail);
+
+        //Assert
+        expect(actual).toBe(expected);
+    });
+
+    it('should return LEFTUP when all positions are cornered left-down', () => {
+        //Arrange
+        const head  = { x: 4, y: 4 };
+        const middle  = { x: 5, y: 4 };
+        const tail  = { x: 5, y: 3 };
         const expected = directions.LEFTUP;
 
         //Act
@@ -116,26 +130,12 @@ describe('solveBodyDirection', () => {
         expect(actual).toBe(expected);
     });
 
-    it('should return LEFTDOWN when all positions are cornered left-down', () => {
-        //Arrange
-        const head  = { x: 4, y: 4 };
-        const middle  = { x: 5, y: 4 };
-        const tail  = { x: 5, y: 3 };
-        const expected = directions.LEFTDOWN;
-
-        //Act
-        const actual = solveBodyDirection(head, middle, tail);
-
-        //Assert
-        expect(actual).toBe(expected);
-    });
-
-    it('should return LEFTDOWN when all positions are cornered down-left', () => {
+    it('should return LEFTUP when all positions are cornered down-left', () => {
         //Arrange
         const head  = { x: 5, y: 4 };
         const middle  = { x: 5, y: 5 };
         const tail  = { x: 4, y: 5 };
-        const expected = directions.LEFTDOWN;
+        const expected = directions.LEFTUP;
 
         //Act
         const actual = solveBodyDirection(head, middle, tail);

@@ -49,7 +49,6 @@ describe('SinglyLinkedList', () => {
                list.push(30);
    
                //Act
-               console.log('next', list.head.next)
                const value = list.head.next().next().value();
 
                //Assert

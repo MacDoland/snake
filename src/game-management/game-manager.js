@@ -47,6 +47,7 @@ class GameManager {
         inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
     }
 
+    /* Public methods */
     init() {
         this.#gameInProgess = false;
         this.#timer.stop();
@@ -86,16 +87,21 @@ class GameManager {
             });
     }
 
+    /* Private Methods */
     #update() {
         if (this.#gameInProgess) {
             const previousPositions = this.#currentSnakePositions;
             this.#snake.move();
             let headPosition = this.#snake.getHeadPosition();
 
-            //check for apple
+            //check for apple - grow
             if (Vector.isEqual(headPosition, this.#applePosition)) {
                 this.#snake.eat();
                 this.#applePosition = this.#grid.getRandomCoordinate(this.#snake.getPositions());
+                //no pop - therefor growth
+            }
+            else {
+                this.#snake.pop(); // remove the tail to simulate moving
             }
 
             this.#currentSnakePositions = this.#snake.getPositions();
@@ -109,7 +115,7 @@ class GameManager {
 
             this.#eventDispatcher.dispatch(this.#events.UPDATE, {
                 currentSnakeDirection: this.#snake.getDirection(),
-                currentSnakePositions: this.#gameInProgess ? this.#snake.getPositions() : previousPositions /*if we collide just provide previous positions*/,
+                currentSnakePositions: this.#snake.getPositions(),
                 snakeLength: this.#snake.getLength(),
                 applePosition: this.#applePosition,
                 score: this.#score,
@@ -117,6 +123,7 @@ class GameManager {
 
         }
     }
+
 
     #isWithinGrid(snake, grid) {
         let headPosition = snake.getHeadPosition();
@@ -127,6 +134,7 @@ class GameManager {
             && headPosition.x < grid.getColumnCount();
     }
 
+    /* Events */
     onUpdate(handler) {
         this.#eventDispatcher.registerHandler(this.#events.UPDATE, handler);
     }

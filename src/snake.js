@@ -52,14 +52,15 @@ class Snake {
         let currentPosition = node.value().position;
         let newPosition = Vector.add(currentPosition, directionVector);
         this.#body.unshift({position: newPosition}); // add new head
-        this.#body.pop(); // remove the tail
         this.#direction = this.#nextDirection;
     }
 
     eat() {
-        const last = this.#body.tail.value();
-        this.#body.push(last);
         this.#eventDispatcher.dispatch(this.#events.EAT, this.#body.length);
+    }
+
+    pop() {
+        this.#body.pop(); // remove the tail
     }
 
     getBody() {

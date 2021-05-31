@@ -21,7 +21,6 @@ class HighScoreManager {
     }
 
     addHighScore(name, value) {
-        console.log("addHighScore");
         this.#highScores.push({ name, value, date: new Date().toISOString() });
         this.#save();
     }
@@ -33,7 +32,6 @@ class HighScoreManager {
     }
 
     #save() {
-        console.log("save");
         window.localStorage.setItem(this.#key, JSON.stringify(this.#highScores));
     }
 

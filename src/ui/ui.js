@@ -33,7 +33,6 @@ class UI {
         this.#promptElement = document.getElementById('prompt');
         this.#promptElementText = document.getElementById('prompt-text');
         this.#clearPrompt();
-
         this.#showStartScreen();
     }
 
@@ -51,14 +50,20 @@ class UI {
 
     renderHighScores(highScores) {
         const highscoresElement = this.#highScoreScreen.querySelector('#high-scores');
+        const highscoresMessage = this.#highScoreScreen.querySelector('#high-scores-message')
 
-        const highScoresHtml = highScores.map(({ name, value }) => {
-            return `<li><div>${name}</div></li><li><div>${value}</div></li>`
-        });
+        if (highScores.length > 0) {
+            this.#show(highscoresElement);
+            this.#hide(highscoresMessage);
+            const highScoresHtml = highScores.map(({ name, value }) => {
+                return `<li><div>${name}</div></li><li><div>${value}</div></li>`
+            });
 
-
-
-        highscoresElement.innerHTML = highScoresHtml.join("");
+            highscoresElement.innerHTML = highScoresHtml.join("");
+        }
+        else{
+            this.#show(highscoresMessage);
+        }
     }
 
     onInitGame(handler) {
@@ -168,7 +173,6 @@ class UI {
             e.preventDefault();
 
             if (typeof (nameInput.value) === 'string' && nameInput.value.length > 0) {
-                console.log("adding high score");
                 scoreButton.removeEventListener('click', submitScoreAction);
                 this.#eventDispatcher.dispatch(this.#events.SUBMITSCORE, {
                     name: nameInput.value,

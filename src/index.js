@@ -24,7 +24,6 @@ ui.onStartGame(() => {
 });
 
 ui.onSubmitHighScores(({ name, score}) => {
-    console.log("onSubmitHighScores");
     highScoreManager.addHighScore(name, score);
 });
 

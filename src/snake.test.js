@@ -38,13 +38,15 @@ describe('Snake', () => {
     it('should move all body parts in UP direction', () => {
         //Arrange
         const snake = new Snake(new Vector(4, 4));
-        const bodyPartA = snake.getBody().head;
-        const bodyPartB = bodyPartA.next();
-        const bodyPartC = bodyPartB.next();
         snake.changeDirection(directions.UP);
 
         //Act
         snake.move();
+        snake.pop();
+
+        const bodyPartA = snake.getBody().head;
+        const bodyPartB = bodyPartA.next();
+        const bodyPartC = bodyPartB.next();
 
         const bodyPartAPosition = bodyPartA.value().position;
         const bodyPartBPosition = bodyPartB.value().position;
@@ -63,13 +65,16 @@ describe('Snake', () => {
     it('should move all body parts in LEFT direction', () => {
         //Arrange
         const snake = new Snake(new Vector(4, 4));
-        const bodyPartA = snake.getBody().head;
-        const bodyPartB = bodyPartA.next();
-        const bodyPartC = bodyPartB.next();
+        
         snake.changeDirection(directions.LEFT);
 
         //Act
         snake.move();
+        snake.pop();
+
+        const bodyPartA = snake.getBody().head;
+        const bodyPartB = bodyPartA.next();
+        const bodyPartC = bodyPartB.next();
 
         const bodyPartAPosition = bodyPartA.value().position;
         const bodyPartBPosition = bodyPartB.value().position;
@@ -88,13 +93,15 @@ describe('Snake', () => {
     it('should move all body parts in RIGHT direction', () => {
         //Arrange
         const snake = new Snake(new Vector(4, 4));
-        const bodyPartA = snake.getBody().head;
-        const bodyPartB = bodyPartA.next();
-        const bodyPartC = bodyPartB.next();
         snake.changeDirection(directions.RIGHT);
 
         //Act
         snake.move();
+        snake.pop();
+        
+        const bodyPartA = snake.getBody().head;
+        const bodyPartB = bodyPartA.next();
+        const bodyPartC = bodyPartB.next();
 
         const bodyPartAPosition = bodyPartA.value().position;
         const bodyPartBPosition = bodyPartB.value().position;
@@ -113,13 +120,15 @@ describe('Snake', () => {
     it('should move all body parts in DOWN direction', () => {
         //Arrange
         const snake = new Snake(new Vector(4, 4), directions.LEFT);
-        const bodyPartA = snake.getBody().head;
-        const bodyPartB = bodyPartA.next();
-        const bodyPartC = bodyPartB.next();
         snake.changeDirection(directions.DOWN);
 
         //Act
         snake.move();
+        snake.pop();
+
+        const bodyPartA = snake.getBody().head;
+        const bodyPartB = bodyPartA.next();
+        const bodyPartC = bodyPartB.next();
 
         const bodyPartAPosition = bodyPartA.value().position;
         const bodyPartBPosition = bodyPartB.value().position;
@@ -180,29 +189,40 @@ describe('Snake', () => {
     it('should end up in expected location after series of moves', () => {
         //Arrange
         const snake = new Snake(new Vector(10, 10));
-        const bodyPartA = snake.getBody().head;
-        const bodyPartB = bodyPartA.next();
-        const bodyPartC = bodyPartB.next();
-        
 
         //Act
         snake.changeDirection(directions.LEFT);
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.changeDirection(directions.DOWN);
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.changeDirection(directions.LEFT);
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.changeDirection(directions.UP);
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
         snake.move();
+        snake.pop();
 
+        const bodyPartA = snake.getBody().head;
+        const bodyPartB = bodyPartA.next();
+        const bodyPartC = bodyPartB.next();
 
         const bodyPartAPosition = bodyPartA.value().position;
         const bodyPartBPosition = bodyPartB.value().position;
