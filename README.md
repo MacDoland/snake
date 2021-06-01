@@ -8,6 +8,8 @@ Code challenge entry - Joe McDowall
 To run the game in Chrome please use the following command:
 npm run dev
 
+alternative play on: http://jm-snake.azurewebsites.net/
+
 
 ## credits:
 
