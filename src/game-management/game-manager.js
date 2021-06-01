@@ -23,13 +23,13 @@ class GameManager {
     #audioManager;
 
     constructor() {
-        this.#initialSnakeLength = 3;
+        this.#initialSnakeLength = 6;
         this.#grid = new Grid(20, 20);
-        this.#snake = new Snake(this.#grid.getCenter());
+        this.#snake = new Snake(this.#grid.getCenter(), this.#initialSnakeLength, directions.UP);
         this.#timer = new Timer();
         this.#eventDispatcher = new EventDispatcher();
         this.#gameInProgess = false;
-        this.#moveDelay = 120;
+        this.#moveDelay = 150;
         this.#currentSnakePositions = [];
         this.#audioManager = new AudioManager();
         this.#events = {
@@ -87,6 +87,7 @@ class GameManager {
             currentSnakeDirection: this.#snake.getDirection(),
             currentSnakePositions: this.#snake.getPositions(),
             snakeLength: this.#snake.getLength(),
+            bulges: this.#snake.getBulges(),
             applePosition: this.#applePosition,
             score: this.#score,
         });
@@ -108,6 +109,7 @@ class GameManager {
                 currentSnakeDirection: direction,
                 currentSnakePositions: positions,
                 snakeLength: this.#snake.getLength(),
+                bulges: this.#snake.getBulges(),
                 applePosition: this.#applePosition,
                 score: this.#score,
                 grid: this.#grid
@@ -145,6 +147,7 @@ class GameManager {
                     currentSnakeDirection: this.#snake.getDirection(),
                     currentSnakePositions: this.#snake.getPositions(),
                     snakeLength: this.#snake.getLength(),
+                    bulges: this.#snake.getBulges(),
                     applePosition: this.#applePosition,
                     score: this.#score,
                 });

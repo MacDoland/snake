@@ -6,9 +6,11 @@
   "scripts": {
     "test": "jest",
     "build:dev": "npx webpack --mode development",
+    "build:dev:watch": "npx webpack --mode development --watch",
     "build": "webpack --mode production",
     "serve": " npx webpack serve -o /dist/. --mode development --open",
     "dev": "npm run build:dev && npm run serve"
+    
   },
   "repository": {
     "type": "git",

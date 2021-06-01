@@ -1,8 +1,11 @@
 import EventDispatcher from '../helpers/event-dispatcher';
 import InputManager from '../game-management/input-manager';
+import HighScoreManager from '../game-management/highscore-manager';
+
 
 class UI {
     #inputManager;
+    #highScoreManager;
     #eventDispatcher;
     #events;
     #startScreen;
@@ -16,6 +19,8 @@ class UI {
     constructor(startScreen, gameScreen, highScoreScreen, reviewScreen) {
         this.#inputManager = new InputManager();
         this.#eventDispatcher = new EventDispatcher();
+        this.#highScoreManager = new HighScoreManager('jm-snake');
+
         this.#events = {
             INIT: "INIT",
             MAINMENU: "MAINMENU",
@@ -37,6 +42,7 @@ class UI {
         this.#showStartScreen();
     }
 
+    /* Public Methods */
     updateScore(score) {
         for (var i = 0; i < this.#scoreElement.length; i++) {
             this.#scoreElement[i].innerHTML = score;
@@ -62,11 +68,12 @@ class UI {
 
             highscoresElement.innerHTML = highScoresHtml.join("");
         }
-        else{
+        else {
             this.#show(highscoresMessage);
         }
     }
 
+    /* Events */
     onInitGame(handler) {
         this.#eventDispatcher.registerHandler(this.#events.INIT, handler);
     }
@@ -108,6 +115,7 @@ class UI {
     }
 
 
+    /* Private Methods */
     #showStartScreen() {
         this.#show(this.#startScreen);
         this.#hide(this.#gameScreen);
@@ -159,6 +167,8 @@ class UI {
         this.#hide(this.#gameScreen);
         this.#show(this.#highScoreScreen);
         this.#hide(this.#reviewScreen);
+
+        this.renderHighScores(this.#highScoreManager.getTopTen());
 
         const backToMenuButton = this.#highScoreScreen.querySelector('#back-button');
         const backToMenuAction = () => {

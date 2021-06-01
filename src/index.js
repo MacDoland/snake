@@ -1,8 +1,8 @@
 import CanvasRenderer from './renderers/canvas-renderer';
 import GameManager from './game-management/game-manager';
 import UI from './ui/ui';
-import HighScoreManager from './game-management/highscore-manager';
 import AudioManager from './game-management/audio-manager';
+import Vector from './structures/vector';
 
 const canvas = document.getElementById('canvas');
 const renderer = new CanvasRenderer(canvas);
@@ -12,7 +12,6 @@ const highScoreScreen = document.getElementById('high-score-screen');
 const reviewScreen = document.getElementById('review-screen');
 
 const gameManager = new GameManager();
-const highScoreManager = new HighScoreManager('jm-snake');
 const audioManager = new AudioManager();
 audioManager.load('menu-bg', './audio/Komiku_-_12_-_Bicycle.mp3', 0.5, true);
 
@@ -39,9 +38,15 @@ ui.onShowHighScores(() => {
     ui.renderHighScores(highScoreManager.getTopTen());
 });
 
-const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength, applePosition, score }) => {
+const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength, bulges, applePosition, score }) => {
+    const distanceFromApple = Vector.distance(currentSnakePositions[0], applePosition);
     renderer.clear();
+    renderer.drawBulges(bulges);
     renderer.drawSnake(currentSnakePositions, currentSnakeDirection, snakeLength);
+    if(distanceFromApple < 2){
+        renderer.drawSnakeMouth(currentSnakePositions[0], currentSnakeDirection);
+    }
+
     renderer.drawApple(applePosition);
     ui.updateScore(score);
 }

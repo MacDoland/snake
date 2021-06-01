@@ -68,6 +68,8 @@ form button {
 
 .screen#review-screen {
     flex-direction: row;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .screen#review-screen .results-pane {

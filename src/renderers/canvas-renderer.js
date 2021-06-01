@@ -1,5 +1,6 @@
-import directions, { solveDirection, solveBodyDirection } from "../helpers/direction";
+import directions, { solveDirection, solveBodyDirection, directionAsVector } from "../helpers/direction";
 import SpriteSheet from "../helpers/spritesheet";
+import Vector from "../structures/vector";
 
 class CanvasRenderer {
     #canvas;
@@ -70,13 +71,11 @@ class CanvasRenderer {
         this.#drawSnakePart(positions[0], headSprite);
     }
 
-    takeScreenshot(){
+    takeScreenshot() {
         return this.#canvas.toDataURL('png');
     }
 
-    #drawSnakePart(coordinate, { spriteSheet, x, y, width, height }) {
-        this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
-    }
+
 
     drawApple(coordinate) {
         let { spriteSheet, x, y, width, height } = this.#spriteSheet.getSprite('apple');
@@ -85,6 +84,35 @@ class CanvasRenderer {
             this.#cellSize - this.#borderWidth,
             this.#cellSize - this.#borderWidth);
         this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
+    }
+
+    #drawSnakePart(coordinate, { spriteSheet, x, y, width, height }) {
+        this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
+    }
+
+    drawSnakeMouth(headPosition, direction) {
+        let directionVector = directionAsVector(direction);
+        const halfSize = this.#cellSize / 2;
+        const offset = Vector.multiplyScalar(directionVector, halfSize / 1.5);
+
+        this.#context.beginPath();
+        this.#context.arc(headPosition.x * this.#cellSize + halfSize + offset.x, headPosition.y * this.#cellSize + halfSize + offset.y, this.#cellSize / 3.5, 0, 2 * Math.PI, false);
+        this.#context.fillStyle = 'black';
+        this.#context.fill();
+        this.#context.closePath();
+    }
+
+    drawBulges(bulges) {
+        if (Array.isArray(bulges)) {
+            const halfSize = this.#cellSize / 2;
+            bulges.forEach(({ position, size }) => {
+                this.#context.beginPath();
+                this.#context.arc(position.x * this.#cellSize+ halfSize, position.y * this.#cellSize+ halfSize, this.#cellSize/1.5 * size, 0, 2 * Math.PI, false);
+                this.#context.fillStyle = '#5b7bf9';
+                this.#context.fill();
+                this.#context.closePath();
+            });
+        }
     }
 
     #loadSprites() {
