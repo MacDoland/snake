@@ -1,15 +1,15 @@
 
-#Snake
+##Snake
 Code challenge entry - Joe McDowall
 
 
-#instructions
+##instructions
 
 To run the game in Chrome please use the following command:
 npm run dev
 
 
-#credits:
+##credits:
 
 snake images - Author:Clear_code  url:https://opengameart.org/content/snake-game-assets
 
