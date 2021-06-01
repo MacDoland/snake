@@ -59,18 +59,28 @@ class UI {
         const highscoresElement = this.#highScoreScreen.querySelector('#high-scores');
         const highscoresMessage = this.#highScoreScreen.querySelector('#high-scores-message')
 
-        if (highScores.length > 0) {
-            this.#show(highscoresElement);
-            this.#hide(highscoresMessage);
-            const highScoresHtml = highScores.map(({ name, value }) => {
-                return `<li><div>${name}</div></li><li><div>${value}</div></li>`
-            });
+        this.#show(highscoresElement);
+        this.#hide(highscoresMessage);
 
-            highscoresElement.innerHTML = highScoresHtml.join("");
-        }
-        else {
+        if (highScores.length === 0) {
             this.#show(highscoresMessage);
         }
+        else{
+            this.#hide(highscoresMessage);
+        }
+
+        let highScoresHtml = [`<li><h3>name</h3><h3>#<span class="apple-icon"></span></h3></li>`];
+        for (let i = 0; i < 10; i++) {
+            if (i < highScores.length) {
+                highScoresHtml.push(`<li><div>${highScores[i].name}</div><div>${highScores[i].value}</div></li>`)
+            }
+            else {
+                highScoresHtml.push(`<li><div></div><div></div></li>`)
+            }
+        }
+
+        highscoresElement.innerHTML = highScoresHtml.join("");
+
     }
 
     /* Events */
@@ -194,10 +204,7 @@ class UI {
 
             if (typeof (nameInput.value) === 'string' && nameInput.value.length > 0) {
                 scoreButton.removeEventListener('click', submitScoreAction);
-                this.#eventDispatcher.dispatch(this.#events.SUBMITSCORE, {
-                    name: nameInput.value,
-                    score
-                });
+                this.#highScoreManager.addHighScore(nameInput.value, score);
 
                 this.#showHighScoreScreen();
                 this.#eventDispatcher.dispatch(this.#events.SHOWHIGHSCORES);

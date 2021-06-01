@@ -68,7 +68,11 @@ class Snake {
         this.#direction = this.#nextDirection;
 
         //progress any bulges
-        this.#bulges.filter((bulge) => !bulge.isAvailable).forEach((bulge) => bulge.step());
+        this.#bulges.filter((bulge) => !bulge.isAvailable).forEach((bulge) => { 
+            bulge.step(this.#body.head, this.#body.length);
+            bulge.step(this.#body.head, this.#body.length);
+        });
+
     }
 
     eat() {
@@ -78,11 +82,11 @@ class Snake {
         const availableBulges = this.#bulges.filter((bulge) => bulge.isAvailable);
 
         if (availableBulges.length > 0) {
-            availableBulges[0].move(this.#body.head.next());
+            availableBulges[0].start(this.#body.head);
         }
         else {
             const bulge = new SnakeBulge();
-            bulge.move(this.#body.head.next());
+            bulge.start(this.#body.head);
             this.#bulges.push(bulge);
         }
     }
@@ -182,30 +186,35 @@ class SnakeSegment {
 }
 
 class SnakeBulge {
-    #generator;
     initialNode;
     currentNode;
     constructor() {
+        this.index = 0;
         this.size = 0;
         this.isAvailable = true;
-        this.#generator = this.bulgeGenerator();
     }
 
-    move(node) {
-        this.currentNode = node;
-        this.initialNode = node;
+    start(node) {
+        this.index = 0;
         this.isAvailable = false;
-        this.size = this.#generator.next().value;
+        this.currentNode = node;
     }
 
-    step() {
-        this.size = this.#generator.next().value;
+    step(head, length) {
+        this.size = (((length - this.index) / length) / 2) + 0.5;
+        let node = head;
 
-        if (this.currentNode.next()) {
-            this.currentNode = this.currentNode.next();
+        for (let i = 0; i < this.index; i++) {
+            if (node.next()) {
+                node = node.next();
+            }
         }
 
-        if (this.size <= .25) {
+        this.currentNode = node;
+
+        this.index++;
+
+        if (this.index >= length) {
             this.reset();
         }
     }
@@ -213,20 +222,11 @@ class SnakeBulge {
     reset() {
         this.isAvailable = true;
         this.size = 0;
-        this.#generator =  this.bulgeGenerator();
-        this.currentNode = this.initialNode;
+        this.index = 0;
     }
 
     getPosition() {
         return this.currentNode.value().position;
-    }
-
-    /* bulge generator */
-    * bulgeGenerator() {
-        yield 1;
-        yield 0.75;
-        yield 0.5;
-        yield 0.25;
     }
 }
 

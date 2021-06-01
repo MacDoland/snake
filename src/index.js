@@ -3,6 +3,7 @@ import GameManager from './game-management/game-manager';
 import UI from './ui/ui';
 import AudioManager from './game-management/audio-manager';
 import Vector from './structures/vector';
+import HighScoreManager from './game-management/highscore-manager';
 
 const canvas = document.getElementById('canvas');
 const renderer = new CanvasRenderer(canvas);
@@ -30,19 +31,12 @@ ui.onStartGame(() => {
     gameManager.start();
 });
 
-ui.onSubmitHighScores(({ name, score }) => {
-    highScoreManager.addHighScore(name, score);
-});
-
-ui.onShowHighScores(() => {
-    ui.renderHighScores(highScoreManager.getTopTen());
-});
-
 const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength, bulges, applePosition, score }) => {
     const distanceFromApple = Vector.distance(currentSnakePositions[0], applePosition);
     renderer.clear();
     renderer.drawBulges(bulges);
     renderer.drawSnake(currentSnakePositions, currentSnakeDirection, snakeLength);
+
     if(distanceFromApple < 2){
         renderer.drawSnakeMouth(currentSnakePositions[0], currentSnakeDirection);
     }

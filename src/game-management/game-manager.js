@@ -29,7 +29,7 @@ class GameManager {
         this.#timer = new Timer();
         this.#eventDispatcher = new EventDispatcher();
         this.#gameInProgess = false;
-        this.#moveDelay = 150;
+        this.#moveDelay = 160;
         this.#currentSnakePositions = [];
         this.#audioManager = new AudioManager();
         this.#events = {

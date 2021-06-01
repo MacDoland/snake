@@ -146,51 +146,70 @@ canvas {
     vertical-align: bottom;
 }
 
+.high-score-board{
+    background: #5b7bf9;
+    border: 27px solid #5b7bf9;
+    border-radius: 40px 40px 40px 40px;
+    margin: 20px auto;
+    position: relative;
+    width: 280px;
+}
+
+.high-score-board h3{
+    border-bottom: 1px solid #000;
+    color: #da480f;
+    margin-bottom: 20px;
+}
 
 ol {
-    min-width: 500px;
-    position: relative;
-    list-style-type: none;
-    margin: 40px;
-    padding: 0;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
 
-ol:before, ol:after {
-    text-align: center;
-    display: block;
-    border: 1px solid black;
-    border-bottom: 0;
-    width: 48%;
-    background: #fff;
-}
-
-ol:before {
-    content: 'Name';
-    border-right: 0;    
-}
-
-ol:after {
-    content: '#Apples';
+.high-score-board:before {
+    content: '';
+    background: #5b7bf9;
+    display: inline-block;
     position: absolute;
-    top: 0;
-    left: 48%;
-    margin-left: 1px;    
+    width: 35px;
+    height: 30px;
+    right: -25px;
+    top: -27px;
+}
+.high-score-board:after {
+    content: '';
+    background-image: url(../images/snake-spritesheet.png);
+    background-position: -120px 0px;
+    display: inline-block;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: -65px;
+    top: -32px;
+
 }
 
 li {
-    background: #fff;
-    text-align: right;
-    width: 48%;
-    float: left;
-    border: 1px solid black;
-    margin-bottom: -1px;
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 20px;
+    width: 100%;
 }
 
-li div{
-    padding:10px;
-
+li div:last-child {
+   min-width: 40px;
+   text-align: center;
 }
 
-li:nth-child(even) {
-    margin-left: -1px;
+input {
+    min-height: 40px;
+    border: 2px solid #000;
+    border-radius: 36px;
+    padding: 0 20px;
+    margin: 10px 0;
 }
