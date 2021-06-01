@@ -65,9 +65,6 @@ class UI {
         if (highScores.length === 0) {
             this.#show(highscoresMessage);
         }
-        else{
-            this.#hide(highscoresMessage);
-        }
 
         let highScoresHtml = [`<li><h3>name</h3><h3>#<span class="apple-icon"></span></h3></li>`];
         for (let i = 0; i < 10; i++) {
