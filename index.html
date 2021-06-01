@@ -8,8 +8,8 @@
     <meta name="description" content="Snake - coding challenge">
     <meta name="author" content="Joe McDowall">
 
-    <link href="./dist/styles/reset.css" rel="stylesheet" />
-    <link href="./dist/styles/style.css" rel="stylesheet" />
+    <link href="./styles/reset.css" rel="stylesheet" />
+    <link href="./styles/style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -17,14 +17,19 @@
         <div class="fade-background"></div>
         <div id="prompt-text" class="prompt-text"></div>
     </div>
+
+    <!-- Intro Screen -->
     <div class="screen" id="intro-screen">
         <div>
             <h1 class="hidden">Welcome to Snake</h1>
             <img src="images/snake-logo-condensed.png" />
         </div>
+        <p>Coding Challenge Entry - Joe McDowall</p>
         <div><button id="start-button">Start</button></div>
         <div><button id="high-scores-button">High Scores</button></div>
     </div>
+
+    <!-- Game Screen -->
     <div class="screen" id="game-screen">
         <div class="container">
             <div class="score-element">
@@ -38,6 +43,8 @@
             <img src="images/movement-keys.svg" class="movement-keys" /><span>Use the arrow keys to turn snake</span>
         </div>
     </div>
+
+    <!-- Review Screen -->
     <div class="screen" id="review-screen">
         <div class="container">
             <img id="game-screenshot" />
@@ -47,17 +54,22 @@
                 <h2>Results</h2>
                 <div class="apple-icon"></div><span class="hidden">Score</span>x<span class="score">0</span>
             </div>
-            <p>Thanks for playing - if you would like to - please enter your name to submit your score.</p>
-            <form>
-                <label for="name">Name:</label>
-                <input id="name" type="text"><button id="submit-button">Submit score</button>
-            </form>
+            <p>Thanks for playing</p>
+            <p>Enter your name and submit your score!</p>
+            <div>
+                <form>
+                    <label for="name">Name:</label>
+                    <input id="name" type="text"><button id="submit-button">Submit score</button>
+                </form>
+            </div>
             <div><button id="play-again-button">Play again</button></div>
             <div><button id="menu-button">Back to menu</button></div>
         </div>
 
     </div>
     </div>
+
+    <!-- Highscore Screen -->
     <div class="screen" id="high-score-screen">
         <div class="container">
             <h2>HighScores</h2>
@@ -67,6 +79,8 @@
             <div><button id="back-button">Back to menu</button></div>
         </div>
     </div>
+
+
     <script type="text/javascript" src="./dist/main.js"></script>
 </body>
 

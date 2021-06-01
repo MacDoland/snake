@@ -1,0 +1,194 @@
+@font-face {
+    font-family: "QuiteMagicalRegular";
+    src: url("../../fonts/QuiteMagicalRegular-8VA2.ttf");
+}
+
+body, html {
+    font-family: "QuiteMagicalRegular", Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+h2 {
+    font-size: 46px;
+    font-weight: bold;
+}
+
+p {
+    padding: 20px;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.screen#intro-screen, .screen#high-score-screen {
+    background: repeating-conic-gradient(#ced7dd 0% 25%, transparent 0% 50%) 50% / 60px 60px;
+}
+
+.screen#intro-screen img {
+    height: 195px;
+    width: 660px;
+    margin: 30px;
+}
+
+button {
+    font-family: "QuiteMagicalRegular", Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    border-radius: 200px;
+    border: 2px solid #000;
+    cursor: pointer;
+    margin: 10px;
+    min-width: 200px;
+    padding: 5px 20px;
+}
+
+button:hover {
+    background-color: rgb(138, 138, 138);
+}
+
+form {
+    border: 1px dashed #000;
+    display: inline-block;
+    padding: 0 20px;
+    margin: 40px;
+}
+
+form button {
+    min-width: 0;
+}
+
+.screen#review-screen {
+    flex-direction: row;
+}
+
+.screen#review-screen .results-pane {
+    min-width: 300px;
+    width: 50%;
+}
+
+.screen#review-screen img {
+    border: 1px solid #000;
+    height: 300px;
+    width: 300px;
+    background: repeating-conic-gradient(#ced7dd 0% 25%, transparent 0% 50%) 50% / 30px 30px;
+}
+
+.screen#review-screen p {
+    padding: 40px 40px 0;
+}
+
+canvas {
+    border: 1px solid #000;
+    background: repeating-conic-gradient(#ced7dd 0% 25%, transparent 0% 50%) 50% / 60px 60px
+}
+
+.fade-background {
+    background-color: #000;
+    opacity: 0.75;
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+}
+
+.prompt {
+    border: 1px dotted #000;
+    color: #fff;
+    font-size:32px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    padding: 80px 40px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    width: 300px;
+}
+
+.prompt-text {
+    position: relative;
+    z-index: 10;
+}
+
+.movement-keys {
+    max-width: 150px;
+    margin: 20px;
+    vertical-align: middle;
+}
+
+.score-element {
+    font-size: 32px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none!important;
+}
+
+.apple-icon {
+    background-image: url(../../images/snake-spritesheet.png);
+    background-position: 0px 0px;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    vertical-align: bottom;
+}
+
+
+ol {
+    min-width: 500px;
+    position: relative;
+    list-style-type: none;
+    margin: 40px;
+    padding: 0;
+}
+
+ol:before, ol:after {
+    text-align: center;
+    display: block;
+    border: 1px solid black;
+    border-bottom: 0;
+    width: 48%;
+    background: #fff;
+}
+
+ol:before {
+    content: 'Name';
+    border-right: 0;    
+}
+
+ol:after {
+    content: '#Apples';
+    position: absolute;
+    top: 0;
+    left: 48%;
+    margin-left: 1px;    
+}
+
+li {
+    background: #fff;
+    text-align: right;
+    width: 48%;
+    float: left;
+    border: 1px solid black;
+    margin-bottom: -1px;
+}
+
+li div{
+    padding:10px;
+
+}
+
+li:nth-child(even) {
+    margin-left: -1px;
+}

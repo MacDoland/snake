@@ -1,4 +1,4 @@
-import directions, { solveDirection, solveBodyDirection } from "../direction";
+import directions, { solveDirection, solveBodyDirection } from "../helpers/direction";
 import SpriteSheet from "../helpers/spritesheet";
 
 class CanvasRenderer {
@@ -26,24 +26,24 @@ class CanvasRenderer {
     }
 
     drawGrid(grid) {
-        this.#canvas.height = this.#cellSize * grid.getColumnCount() + this.#borderWidth;
-        this.#canvas.width = this.#cellSize * grid.getRowCount() + this.#borderWidth;
-        // this.#context.beginPath();
+        // this.#canvas.height = this.#cellSize * grid.getColumnCount() + this.#borderWidth;
+        // this.#canvas.width = this.#cellSize * grid.getRowCount() + this.#borderWidth;
+        this.#context.beginPath();
 
-        // let gridCoordinates = grid.getGridCoordinates();
+        let gridCoordinates = grid.getGridCoordinates();
 
-        // gridCoordinates.forEach((coordinate) => {
-        //     this.#context.beginPath();
-        //     this.#context.fillStyle = (coordinate.y % 2) === (coordinate.x % 2) ? "#ffffff" : "#eeeeee";
-        //     this.#context.rect(coordinate.x * this.#cellSize,
-        //         coordinate.y * this.#cellSize,
-        //         this.#cellSize,
-        //         this.#cellSize);
-        //     this.#context.fill();
-        //     this.#context.closePath();
-        // });
+        gridCoordinates.forEach((coordinate) => {
+            this.#context.beginPath();
+            this.#context.fillStyle = (coordinate.y % 2) === (coordinate.x % 2) ? "#ffffff" : "#ced7dd ";
+            this.#context.rect(coordinate.x * this.#cellSize,
+                coordinate.y * this.#cellSize,
+                this.#cellSize,
+                this.#cellSize);
+            this.#context.fill();
+            this.#context.closePath();
+        });
 
-        // this.#context.closePath();
+        this.#context.closePath();
     }
 
     drawSnake(positions, direction) {

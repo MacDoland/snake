@@ -1,5 +1,5 @@
 import EventDispatcher from '../helpers/event-dispatcher';
-import InputManager from '../input-manager';
+import InputManager from '../game-management/input-manager';
 
 class UI {
     #inputManager;
@@ -18,6 +18,7 @@ class UI {
         this.#eventDispatcher = new EventDispatcher();
         this.#events = {
             INIT: "INIT",
+            MAINMENU: "MAINMENU",
             STARTGAME: "STARTGAME",
             SUBMITSCORE: "SUBMITSCORE",
             SHOWHIGHSCORES: "SHOWHIGHSCORES"
@@ -98,6 +99,14 @@ class UI {
         this.#eventDispatcher.deregisterHandler(this.#events.SHOWHIGHSCORES, handler);
     }
 
+    onMainMenu(handler) {
+        this.#eventDispatcher.registerHandler(this.#events.MAINMENU, handler);
+    }
+
+    removeOnMainMenu(handler) {
+        this.#eventDispatcher.deregisterHandler(this.#events.MAINMENU, handler);
+    }
+
 
     #showStartScreen() {
         this.#show(this.#startScreen);
@@ -121,6 +130,7 @@ class UI {
 
         startButton.addEventListener('click', onStartGameAction);
         highScoresButton.addEventListener('click', onHighScoresAction);
+        this.#eventDispatcher.dispatch(this.#events.MAINMENU);
     }
 
     #startGame() {

@@ -1,5 +1,5 @@
 import EventDispatcher from './helpers/event-dispatcher';
-import directions, { directionAsVector, getDirectionOpposite, isDirection } from "./direction";
+import directions, { directionAsVector, getDirectionOpposite, isDirection } from "./helpers/direction";
 import SinglyLinkedList from "./structures/linked-list";
 import Vector from './structures/vector.js';
 
@@ -20,7 +20,8 @@ class Snake {
        
         this.#eventDispatcher = new EventDispatcher();
         this.#events = {
-            EAT: "EAT"
+            EAT: "EAT",
+            CHANGEDIRECTION: "CHANGEDIRECTION"
         }
 
         this.init();
@@ -44,6 +45,10 @@ class Snake {
         if (isDirection(newDirection) && newDirection !== oppositeDirection) {
             this.#nextDirection = newDirection;
         }
+
+        if(this.#direction != newDirection){
+            this.#eventDispatcher.dispatch(this.#events.CHANGEDIRECTION, newDirection);
+        }
     }
 
     move() {
@@ -61,6 +66,10 @@ class Snake {
 
     pop() {
         this.#body.pop(); // remove the tail
+    }
+
+    resetHandlers() {
+        this.#eventDispatcher.reset();
     }
 
     getBody() {
@@ -120,6 +129,14 @@ class Snake {
 
     removeOnEat(handler) {
         this.#eventDispatcher.deregisterHandler(this.#events.EAT, handler);
+    }
+
+    onChangeDirection(handler) {
+        this.#eventDispatcher.registerHandler(this.#events.CHANGEDIRECTION, handler);
+    }
+
+    removeOnChangeDirection(handler) {
+        this.#eventDispatcher.deregisterHandler(this.#events.CHANGEDIRECTION, handler);
     }
 }
 

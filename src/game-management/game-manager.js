@@ -1,10 +1,11 @@
-import directions from "../direction";
+import directions from "../helpers/direction";
 import EventDispatcher from "../helpers/event-dispatcher";
 import Snake from "../snake";
 import Grid from "../structures/grid";
-import Timer from "../timer";
+import Timer from "../helpers/timer";
 import Vector from "../structures/vector";
-import InputManager from "../input-manager";
+import InputManager from "./input-manager";
+import AudioManager from "./audio-manager";
 
 class GameManager {
 
@@ -19,6 +20,7 @@ class GameManager {
     #gameInProgess;
     #moveDelay;
     #currentSnakePositions;
+    #audioManager;
 
     constructor() {
         this.#initialSnakeLength = 3;
@@ -29,6 +31,7 @@ class GameManager {
         this.#gameInProgess = false;
         this.#moveDelay = 120;
         this.#currentSnakePositions = [];
+        this.#audioManager = new AudioManager();
         this.#events = {
             INIT: 'INIT',
             START: 'START',
@@ -45,6 +48,14 @@ class GameManager {
         inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
         inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
         inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
+
+        this.#audioManager.load('eat', '../audio/eat.wav', 0.8);
+        this.#audioManager.load('up', '../audio/wo.wav');
+        this.#audioManager.load('right', '../audio/we.wav');
+        this.#audioManager.load('down', '../audio/wa.wav');
+        this.#audioManager.load('left', '../audio/wu.wav');
+        this.#audioManager.load('bg', '../audio/Monkeys-Spinning-Monkeys.mp3', 0.3, true);
+        this.#audioManager.load('cheering', '../audio/cheering.wav', 0.3, false);
     }
 
     /* Public methods */
@@ -56,13 +67,21 @@ class GameManager {
         this.#score = 0;
         this.#applePosition = this.#grid.getRandomCoordinate(this.#snake.getPositions());
         this.#snake.init();
+        this.#audioManager.play('bg');
 
         const onEatHandler = (snakeLength) => {
             this.#score = snakeLength - this.#initialSnakeLength;
+            this.#audioManager.play('eat');
         };
+
+        const onChangeDirectionHandler = (direction) => {
+            this.#audioManager.play(direction.toString().toLowerCase());
+        }
 
         this.#snake.removeOnEat(onEatHandler);
         this.#snake.onEat(onEatHandler);
+        this.#snake.removeOnChangeDirection(onChangeDirectionHandler);
+        this.#snake.onChangeDirection(onChangeDirectionHandler);
 
         this.#eventDispatcher.dispatch(this.#events.UPDATE, {
             currentSnakeDirection: this.#snake.getDirection(),
@@ -78,12 +97,20 @@ class GameManager {
         this.#timer.start(this.#moveDelay);
     }
 
-    end() {
+    end(positions, direction) {
         this.#timer.stop();
         this.#timer.removeOnElapsed(this.#update);
+        this.#snake.resetHandlers();
+        this.#audioManager.stop('bg');
+        this.#audioManager.play('cheering');
         this.#eventDispatcher.dispatch(this.#events.END,
             {
-                score: this.#score
+                currentSnakeDirection: direction,
+                currentSnakePositions: positions,
+                snakeLength: this.#snake.getLength(),
+                applePosition: this.#applePosition,
+                score: this.#score,
+                grid: this.#grid
             });
     }
 
@@ -91,36 +118,37 @@ class GameManager {
     #update() {
         if (this.#gameInProgess) {
             const previousPositions = this.#currentSnakePositions;
+            const previousDirection = this.#snake.getDirection();;
             this.#snake.move();
             let headPosition = this.#snake.getHeadPosition();
-
-            //check for apple - grow
-            if (Vector.isEqual(headPosition, this.#applePosition)) {
-                this.#snake.eat();
-                this.#applePosition = this.#grid.getRandomCoordinate(this.#snake.getPositions());
-                //no pop - therefor growth
-            }
-            else {
-                this.#snake.pop(); // remove the tail to simulate moving
-            }
-
-            this.#currentSnakePositions = this.#snake.getPositions();
-            this.#score = this.#snake.getLength() - this.#initialSnakeLength;
 
             //running into itself or the outer walls will end the game
             if (this.#snake.hasOverlapped() || !this.#isWithinGrid(this.#snake, this.#grid)) {
                 this.#gameInProgess = false;
-                this.end();
+                this.end(previousPositions, previousDirection);
             }
+            else {
+                //check for apple - grow
+                if (Vector.isEqual(headPosition, this.#applePosition)) {
+                    this.#snake.eat();
+                    this.#applePosition = this.#grid.getRandomCoordinate(this.#snake.getPositions());
+                    //no pop - therefor growth
+                }
+                else {
+                    this.#snake.pop(); // remove the tail to simulate moving
+                }
 
-            this.#eventDispatcher.dispatch(this.#events.UPDATE, {
-                currentSnakeDirection: this.#snake.getDirection(),
-                currentSnakePositions: this.#snake.getPositions(),
-                snakeLength: this.#snake.getLength(),
-                applePosition: this.#applePosition,
-                score: this.#score,
-            });
+                this.#currentSnakePositions = this.#snake.getPositions();
+                this.#score = this.#snake.getLength() - this.#initialSnakeLength;
 
+                this.#eventDispatcher.dispatch(this.#events.UPDATE, {
+                    currentSnakeDirection: this.#snake.getDirection(),
+                    currentSnakePositions: this.#snake.getPositions(),
+                    snakeLength: this.#snake.getLength(),
+                    applePosition: this.#applePosition,
+                    score: this.#score,
+                });
+            }
         }
     }
 
@@ -147,7 +175,7 @@ class GameManager {
         this.#eventDispatcher.registerHandler(this.#events.INIT, handler);
     }
 
-    removeonInit(handler) {
+    removeOnInit(handler) {
         this.#eventDispatcher.deregisterHandler(this.#events.INIT, handler);
     }
 

@@ -2,6 +2,7 @@ import CanvasRenderer from './renderers/canvas-renderer';
 import GameManager from './game-management/game-manager';
 import UI from './ui/ui';
 import HighScoreManager from './game-management/highscore-manager';
+import AudioManager from './game-management/audio-manager';
 
 const canvas = document.getElementById('canvas');
 const renderer = new CanvasRenderer(canvas);
@@ -12,10 +13,17 @@ const reviewScreen = document.getElementById('review-screen');
 
 const gameManager = new GameManager();
 const highScoreManager = new HighScoreManager('jm-snake');
+const audioManager = new AudioManager();
+audioManager.load('menu-bg', './audio/Komiku_-_12_-_Bicycle.mp3', 0.5, true);
 
 const ui = new UI(introScreen, gameScreen, highScoreScreen, reviewScreen);
 
+ui.onMainMenu(() => {
+    audioManager.play('menu-bg');
+});
+
 ui.onInitGame(() => {
+    audioManager.stop('menu-bg');
     gameManager.init();
 });
 
@@ -23,7 +31,7 @@ ui.onStartGame(() => {
     gameManager.start();
 });
 
-ui.onSubmitHighScores(({ name, score}) => {
+ui.onSubmitHighScores(({ name, score }) => {
     highScoreManager.addHighScore(name, score);
 });
 
@@ -31,7 +39,7 @@ ui.onShowHighScores(() => {
     ui.renderHighScores(highScoreManager.getTopTen());
 });
 
-const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength, applePosition, score}) => {
+const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength, applePosition, score }) => {
     renderer.clear();
     renderer.drawSnake(currentSnakePositions, currentSnakeDirection, snakeLength);
     renderer.drawApple(applePosition);
@@ -41,9 +49,13 @@ const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength,
 gameManager.onInit(updateGame);
 gameManager.onUpdate(updateGame);
 
-gameManager.onEnd((data) => {
-   const screenshot = renderer.takeScreenshot();
-   ui.goToReview(screenshot, data.score);
+gameManager.onEnd(({ currentSnakePositions, currentSnakeDirection, snakeLength, applePosition, score, grid }) => {
+    renderer.clear();
+    renderer.drawGrid(grid);
+    renderer.drawSnake(currentSnakePositions, currentSnakeDirection, snakeLength);
+    renderer.drawApple(applePosition);
+    const screenshot = renderer.takeScreenshot();
+    ui.goToReview(screenshot, score);
 });
 
 

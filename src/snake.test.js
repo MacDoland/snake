@@ -1,4 +1,4 @@
-import directions from './direction.js';
+import directions from './helpers/direction';
 import Snake from './snake.js';
 import Vector from './structures/vector.js';
 
