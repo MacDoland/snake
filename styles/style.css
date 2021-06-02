@@ -3,6 +3,8 @@
     src: url("../../fonts/QuiteMagicalRegular-8VA2.ttf");
 }
 
+/* General Styles */
+
 body, html {
     font-family: "QuiteMagicalRegular", Arial, Helvetica, sans-serif;
     font-size: 32px;
@@ -11,14 +13,81 @@ body, html {
     width: 100%;
 }
 
+button {
+    font-family: "QuiteMagicalRegular", Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    border-radius: 200px;
+    border: 2px solid #000;
+    cursor: pointer;
+    margin: 10px;
+    min-width: 200px;
+    padding: 5px 20px;
+}
+
+button:hover {
+    background-color: rgb(138, 138, 138);
+}
+
+canvas {
+    border: 1px solid #000;
+    background: repeating-conic-gradient(#ced7dd 0% 25%, transparent 0% 50%) 50% / 60px 60px
+}
+
 h2 {
     font-size: 46px;
     font-weight: bold;
 }
 
+form {
+    border: 1px dashed #000;
+    display: inline-block;
+    padding: 0 20px;
+    margin: 40px;
+}
+
+form button {
+    min-width: 0;
+}
+
+.hidden {
+    display: none!important;
+}
+
+input {
+    min-height: 40px;
+    border: 2px solid #000;
+    border-radius: 36px;
+    padding: 0 20px;
+    margin: 10px 0;
+}
+
+li {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 20px;
+    width: 100%;
+}
+
+li div:last-child {
+    min-width: 40px;
+    text-align: center;
+}
+
+ol {
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
 p {
     padding: 20px;
 }
+
+/* Screens */
 
 .screen {
     display: flex;
@@ -38,32 +107,6 @@ p {
     height: 195px;
     width: 660px;
     margin: 30px;
-}
-
-button {
-    font-family: "QuiteMagicalRegular", Arial, Helvetica, sans-serif;
-    font-size: 32px;
-    border-radius: 200px;
-    border: 2px solid #000;
-    cursor: pointer;
-    margin: 10px;
-    min-width: 200px;
-    padding: 5px 20px;
-}
-
-button:hover {
-    background-color: rgb(138, 138, 138);
-}
-
-form {
-    border: 1px dashed #000;
-    display: inline-block;
-    padding: 0 20px;
-    margin: 40px;
-}
-
-form button {
-    min-width: 0;
 }
 
 .screen#review-screen {
@@ -88,25 +131,20 @@ form button {
     padding: 40px 40px 0;
 }
 
-canvas {
-    border: 1px solid #000;
-    background: repeating-conic-gradient(#ced7dd 0% 25%, transparent 0% 50%) 50% / 60px 60px
-}
-
 .fade-background {
     background-color: #000;
     opacity: 0.75;
     position: absolute;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .prompt {
     border: 1px dotted #000;
     color: #fff;
-    font-size:32px;
+    font-size: 32px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -133,10 +171,6 @@ canvas {
     text-align: center;
 }
 
-.hidden {
-    display: none!important;
-}
-
 .apple-icon {
     background-image: url(../../images/snake-spritesheet.png);
     background-position: 0px 0px;
@@ -146,7 +180,7 @@ canvas {
     vertical-align: bottom;
 }
 
-.high-score-board{
+.high-score-board {
     background: #5b7bf9;
     border: 27px solid #5b7bf9;
     border-radius: 40px 40px 40px 40px;
@@ -155,18 +189,10 @@ canvas {
     width: 280px;
 }
 
-.high-score-board h3{
+.high-score-board h3 {
     border-bottom: 1px solid #000;
     color: #da480f;
     margin-bottom: 20px;
-}
-
-ol {
-    background-color: #fff;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
 }
 
 .high-score-board:before {
@@ -179,6 +205,7 @@ ol {
     right: -25px;
     top: -27px;
 }
+
 .high-score-board:after {
     content: '';
     background-image: url(../images/snake-spritesheet.png);
@@ -189,27 +216,4 @@ ol {
     height: 40px;
     right: -65px;
     top: -32px;
-
-}
-
-li {
-    align-items: baseline;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    min-height: 20px;
-    width: 100%;
-}
-
-li div:last-child {
-   min-width: 40px;
-   text-align: center;
-}
-
-input {
-    min-height: 40px;
-    border: 2px solid #000;
-    border-radius: 36px;
-    padding: 0 20px;
-    margin: 10px 0;
 }
