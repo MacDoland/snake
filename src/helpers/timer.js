@@ -19,7 +19,7 @@ class Timer {
 
     start(target) {
         this.#current = 0;
-        this.#startTime = new Date();
+        this.#startTime = performance.now();
         this.#target = target;
         this.#isActive = true;
         
@@ -28,7 +28,7 @@ class Timer {
 
     reset() {
         this.#current = 0;
-        this.#startTime = new Date();
+        this.#startTime = performance.now();
     }
 
     stop() {
@@ -42,7 +42,7 @@ class Timer {
     tick() {
         if (this.#isActive) {
             this.#eventDispatcher.dispatch(this.#events.TICK, this.#current / this.#target );
-            this.#current = new Date() - this.#startTime;
+            this.#current = performance.now() - this.#startTime;
             this.#elaspsed = this.#current > this.#target;
 
             if (this.hasElapsed()) {

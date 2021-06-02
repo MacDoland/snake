@@ -10,7 +10,6 @@
     "build": "webpack --mode production",
     "serve": " npx webpack serve -o /dist/. --mode development --open",
     "dev": "npm run build:dev && npm run serve"
-    
   },
   "repository": {
     "type": "git",
@@ -23,11 +22,14 @@
   },
   "homepage": "https://github.com/MacDoland/snake#readme",
   "devDependencies": {
+    "@babel/cli": "^7.14.3",
     "@babel/core": "^7.14.3",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@babel/preset-env": "^7.14.4",
     "babel-jest": "^27.0.1",
+    "babel-loader": "^8.2.2",
+    "core-js": "^3.13.1",
     "jest": "^27.0.1",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0",
