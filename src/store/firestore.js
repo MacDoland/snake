@@ -1,5 +1,6 @@
 import firebaseConfig from '../config/firebase-config';
 import firebase from "firebase/app";
+import "firebase/auth";
 import "firebase/database";
 
 class FirestoreDatabase {
@@ -8,14 +9,14 @@ class FirestoreDatabase {
     #key;
     constructor(key) {
         this.#key = key;
-        firebase.initializeApp(firebaseConfig);
         this.#database = firebase.database;
-        const dbRef = this.#database().ref(this.#key);
+        this.#data = [];
 
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                var uid = user.uid;
+        firebase.initializeApp(firebaseConfig);
 
+        firebase.auth().signInAnonymously()
+            .then(() => {
+                const dbRef = this.#database().ref(this.#key);
                 dbRef.get().then((snapshot) => {
                     if (snapshot.exists()) {
                         this.#data = JSON.parse(snapshot.val());
@@ -26,11 +27,11 @@ class FirestoreDatabase {
                 }).catch((error) => {
                     console.error(error);
                 });
-            } else {
-                // User is signed out
-            }
-        });
-
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+            });
     }
 
     get() {

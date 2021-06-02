@@ -5,7 +5,7 @@ class HighScoreManager {
     #database;
 
     constructor(key) {
-        this.#database = window.location.hostname === 'localhost' ? new LocalStore(key) : new FirestoreDatabase(key);
+        this.#database = window.location.hostname === 'localhost' ? new FirestoreDatabase(key) : new FirestoreDatabase(key);
     }
 
     getHighScores() {
