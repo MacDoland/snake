@@ -6,7 +6,7 @@ describe('Snake', () => {
     it('should initialise with 3 body segments', () => {
         //Arrange
         //Act
-        const snake = new Snake(new Vector(4, 4));
+        const snake = new Snake(new Vector(4, 4), 3);
         const body = snake.getBody();
 
         //Assert
@@ -16,14 +16,14 @@ describe('Snake', () => {
     it('should initialise with 3 body segments in expected positions', () => {
         //Arrange
         //Act
-        const snake = new Snake(new Vector(4, 4));
+        const snake = new Snake(new Vector(4, 4), 4);
         const bodyPartA = snake.getBody().head;
         const bodyPartB = bodyPartA.next();
         const bodyPartC = bodyPartB.next();
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(4, 4);
         const expectedBodyPartBPosition = new Vector(4, 5);
@@ -48,9 +48,9 @@ describe('Snake', () => {
         const bodyPartB = bodyPartA.next();
         const bodyPartC = bodyPartB.next();
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(4, 3);
         const expectedBodyPartBPosition = new Vector(4, 4);
@@ -76,9 +76,9 @@ describe('Snake', () => {
         const bodyPartB = bodyPartA.next();
         const bodyPartC = bodyPartB.next();
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(3, 4);
         const expectedBodyPartBPosition = new Vector(4, 4);
@@ -103,9 +103,9 @@ describe('Snake', () => {
         const bodyPartB = bodyPartA.next();
         const bodyPartC = bodyPartB.next();
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(5, 4);
         const expectedBodyPartBPosition = new Vector(4, 4);
@@ -119,7 +119,7 @@ describe('Snake', () => {
 
     it('should move all body parts in DOWN direction', () => {
         //Arrange
-        const snake = new Snake(new Vector(4, 4), directions.LEFT);
+        const snake = new Snake(new Vector(4, 4), 3, directions.LEFT);
         snake.changeDirection(directions.DOWN);
 
         //Act
@@ -130,9 +130,9 @@ describe('Snake', () => {
         const bodyPartB = bodyPartA.next();
         const bodyPartC = bodyPartB.next();
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(4, 5);
         const expectedBodyPartBPosition = new Vector(4, 4);
@@ -171,9 +171,9 @@ describe('Snake', () => {
         snake.move();
 
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(10, 10);
         const expectedBodyPartBPosition = new Vector(10, 11);
@@ -224,9 +224,9 @@ describe('Snake', () => {
         const bodyPartB = bodyPartA.next();
         const bodyPartC = bodyPartB.next();
 
-        const bodyPartAPosition = bodyPartA.value().position;
-        const bodyPartBPosition = bodyPartB.value().position;
-        const bodyPartCPosition = bodyPartC.value().position;
+        const bodyPartAPosition = bodyPartA.value();
+        const bodyPartBPosition = bodyPartB.value();
+        const bodyPartCPosition = bodyPartC.value();
 
         const expectedBodyPartAPosition = new Vector(4, 10);
         const expectedBodyPartBPosition = new Vector(4, 11);

@@ -35,12 +35,12 @@ class Snake {
         const directionVector = directionAsVector(oppositeDirection);
 
         this.#body = new SinglyLinkedList();
-        this.#body.push(new SnakeSegment(this.#initialPosition));
+        this.#body.push(this.#initialPosition);
         let offset;
 
         for (let i = 1; i < this.#initialLength; i++) {
             offset = Vector.multiplyScalar(directionVector, i);
-            this.#body.push(new SnakeSegment(Vector.add(this.#initialPosition, offset)));
+            this.#body.push(Vector.add(this.#initialPosition, offset));
         }
 
         this.#direction = this.#initialDirection;
@@ -62,9 +62,9 @@ class Snake {
     move() {
         let node = this.#body.head;
         const directionVector = directionAsVector(this.#nextDirection);
-        let currentPosition = node.value().position;
+        let currentPosition = node.value();
         let newPosition = Vector.add(currentPosition, directionVector);
-        this.#body.unshift({ position: newPosition }); // add new head
+        this.#body.unshift(newPosition); // add new head
         this.#direction = this.#nextDirection;
 
         //progress any bulges
@@ -122,7 +122,7 @@ class Snake {
         let i = 0;
 
         while (i < this.#body.length) {
-            positions.push(node.value().position.get());
+            positions.push(node.value().get());
             node = node.next();
             i++;
         }
@@ -148,7 +148,7 @@ class Snake {
     }
 
     getHeadPosition() {
-        return this.#body.head.value().position;
+        return this.#body.head.value();
     }
 
     setHeadPosition(newPosition) {
@@ -158,7 +158,7 @@ class Snake {
     hasOverlapped() {
         const positions = this.getPositions();
         positions.shift();
-        return positions.filter((position) => Vector.isEqual(position, this.#body.head.value().position)).length > 0;
+        return positions.filter((position) => Vector.isEqual(position, this.#body.head.value())).length > 0;
     }
 
     /* Events */
@@ -176,12 +176,6 @@ class Snake {
 
     removeOnChangeDirection(handler) {
         this.#eventDispatcher.deregisterHandler(this.#events.CHANGEDIRECTION, handler);
-    }
-}
-
-class SnakeSegment {
-    constructor(position) {
-        this.position = position;
     }
 }
 
@@ -226,7 +220,7 @@ class SnakeBulge {
     }
 
     getPosition() {
-        return this.currentNode.value().position;
+        return this.currentNode.value();
     }
 }
 
