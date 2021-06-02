@@ -21,6 +21,7 @@ class GameManager {
     #moveDelay;
     #currentSnakePositions;
     #audioManager;
+    #inputManager;
 
     constructor() {
         this.#initialSnakeLength = 6;
@@ -43,11 +44,11 @@ class GameManager {
         }
         Object.freeze(this.#events);
 
-        const inputManager = new InputManager();
-        inputManager.onUp(() => this.#snake.changeDirection(directions.UP));
-        inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
-        inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
-        inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
+        this.#inputManager = new InputManager();
+        this.#inputManager.onUp(() => this.#snake.changeDirection(directions.UP));
+        this.#inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
+        this.#inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
+        this.#inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
 
         this.#audioManager.load('eat', '../audio/eat.wav', 0.8);
         this.#audioManager.load('up', '../audio/wo.wav');
@@ -68,6 +69,10 @@ class GameManager {
         this.#applePosition = this.#grid.getRandomCoordinate(this.#snake.getPositions());
         this.#snake.init();
         this.#audioManager.play('bg');
+
+        this.#timer.onTick(() => {
+            this.#inputManager.update();
+        })
 
         const onEatHandler = (snakeLength) => {
             this.#score = snakeLength - this.#initialSnakeLength;
@@ -118,6 +123,8 @@ class GameManager {
 
     /* Private Methods */
     #update() {
+        this.#inputManager.update();
+
         if (this.#gameInProgess) {
             const previousPositions = this.#currentSnakePositions;
             const previousDirection = this.#snake.getDirection();;

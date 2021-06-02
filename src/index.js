@@ -3,7 +3,6 @@ import GameManager from './game-management/game-manager';
 import UI from './ui/ui';
 import AudioManager from './game-management/audio-manager';
 import Vector from './structures/vector';
-import HighScoreManager from './game-management/highscore-manager';
 
 const canvas = document.getElementById('canvas');
 const renderer = new CanvasRenderer(canvas);

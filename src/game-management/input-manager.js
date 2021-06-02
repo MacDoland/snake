@@ -3,6 +3,8 @@ import EventDispatcher from "../helpers/event-dispatcher";
 class InputManager {
     #eventDispatcher;
     #events;
+    #keyState;
+    #keys;
 
     constructor() {
         this.#eventDispatcher = new EventDispatcher();
@@ -15,29 +17,39 @@ class InputManager {
             ANY: 'ANY'
         }
 
-        document.body.addEventListener('keydown', (e) => {
-            if (e.keyCode == 37) {
-                this.#eventDispatcher.dispatch(this.#events.LEFT)
-            }
+        this.#keyState = [];
 
-            if (e.keyCode == 38) {
-                this.#eventDispatcher.dispatch(this.#events.UP)
-            }
+        this.#keys = {
+            KEY_UP: 38,
+            KEY_DOWN: 40,
+            KEY_LEFT: 37,
+            KEY_RIGHT: 39
+        }
 
-            if (e.keyCode == 39) {
-                this.#eventDispatcher.dispatch(this.#events.RIGHT)
-            }
-
-            if (e.keyCode == 40) {
-                this.#eventDispatcher.dispatch(this.#events.DOWN)
-            }
-
-            if (e.keyCode == 69) {
-                this.#eventDispatcher.dispatch(this.#events.E)
-            }
-
+        const keyEventLogger = (e) => {
+            this.#keyState[e.keyCode] = e.type == 'keydown';
             this.#eventDispatcher.dispatch(this.#events.ANY)
-        });
+        };
+        window.addEventListener("keydown", keyEventLogger);
+        window.addEventListener("keyup", keyEventLogger);
+    }
+
+    update() {
+        if (this.#keyState[this.#keys.KEY_LEFT]) {
+            this.#eventDispatcher.dispatch(this.#events.LEFT)
+        }
+
+        if (this.#keyState[this.#keys.KEY_UP]) {
+            this.#eventDispatcher.dispatch(this.#events.UP)
+        }
+
+        if (this.#keyState[this.#keys.KEY_RIGHT]) {
+            this.#eventDispatcher.dispatch(this.#events.RIGHT)
+        }
+
+        if (this.#keyState[this.#keys.KEY_DOWN]) {
+            this.#eventDispatcher.dispatch(this.#events.DOWN)
+        }
     }
 
     onUp(handler) {
@@ -70,14 +82,6 @@ class InputManager {
 
     removeOnLeft(handler) {
         this.#eventDispatcher.deregisterHandler(this.#events.LEFT, handler);
-    }
-
-    onE(handler) {
-        this.#eventDispatcher.registerHandler(this.#events.E, handler);
-    }
-
-    removeOnE(handler) {
-        this.#eventDispatcher.deregisterHandler(this.#events.E, handler);
     }
 
     onAnyKey(handler) {
