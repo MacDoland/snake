@@ -12,26 +12,35 @@ class FirestoreDatabase {
         this.#database = firebase.database;
         const dbRef = this.#database().ref(this.#key);
 
-        dbRef.get().then((snapshot) => {
-            if (snapshot.exists()) {
-                this.#data = JSON.parse(snapshot.val());
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                var uid = user.uid;
+
+                dbRef.get().then((snapshot) => {
+                    if (snapshot.exists()) {
+                        this.#data = JSON.parse(snapshot.val());
+                    } else {
+                        console.log("No data available");
+                        this.#data = [];
+                    }
+                }).catch((error) => {
+                    console.error(error);
+                });
             } else {
-                console.log("No data available");
-                this.#data = [];
+                // User is signed out
             }
-        }).catch((error) => {
-            console.error(error);
         });
+
     }
 
-    get(){
+    get() {
         return this.#data;
     }
 
     set(entry) {
         this.#data.push(entry);
         const dbRef = this.#database().ref(this.#key);
-        dbRef.set(JSON.stringify( this.#data));
+        dbRef.set(JSON.stringify(this.#data));
     }
 }
 
