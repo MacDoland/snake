@@ -64,6 +64,7 @@ class Timer {
         this.#eventDispatcher.reset();
     }
 
+    /* Events */
     onTick(handler) {
         this.#eventDispatcher.registerHandler(this.#events.TICK, handler);
     }

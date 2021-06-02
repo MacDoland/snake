@@ -5,8 +5,6 @@ import Vector from "../structures/vector";
 class CanvasRenderer {
     #canvas;
     #context;
-    #width;
-    #height;
     #cellSize;
     #borderWidth;
     #spriteSheet;
@@ -14,8 +12,6 @@ class CanvasRenderer {
     constructor(canvas, cellSize = 30) {
         this.#canvas = canvas;
         this.#context = canvas.getContext('2d');
-        this.#height = canvas.height;
-        this.#width = canvas.width;
         this.#cellSize = cellSize;
         this.#borderWidth = 2;
         this.#spriteSheet = new SpriteSheet('./images/snake-spritesheet.png');
@@ -27,8 +23,6 @@ class CanvasRenderer {
     }
 
     drawGrid(grid) {
-        // this.#canvas.height = this.#cellSize * grid.getColumnCount() + this.#borderWidth;
-        // this.#canvas.width = this.#cellSize * grid.getRowCount() + this.#borderWidth;
         this.#context.beginPath();
 
         let gridCoordinates = grid.getGridCoordinates();
@@ -86,10 +80,6 @@ class CanvasRenderer {
         this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
     }
 
-    #drawSnakePart(coordinate, { spriteSheet, x, y, width, height }) {
-        this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
-    }
-
     drawSnakeMouth(headPosition, direction) {
         let directionVector = directionAsVector(direction);
         const halfSize = this.#cellSize / 2;
@@ -113,6 +103,10 @@ class CanvasRenderer {
                 this.#context.closePath();
             });
         }
+    }
+
+    #drawSnakePart(coordinate, { spriteSheet, x, y, width, height }) {
+        this.#context.drawImage(spriteSheet, x, y, width, height, coordinate.x * this.#cellSize, coordinate.y * this.#cellSize, this.#cellSize, this.#cellSize);
     }
 
     #loadSprites() {

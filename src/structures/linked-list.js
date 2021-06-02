@@ -54,8 +54,6 @@ class SinglyLinkedList {
         return this;
     }
 
-
-
     #clear() {
         this.head = null;
         this.tail = null;

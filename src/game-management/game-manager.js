@@ -11,28 +11,46 @@ class GameManager {
 
     #score;
     #snake;
-    #initialSnakeLength;
     #grid;
-    #applePosition;
-    #eventDispatcher;
-    #events;
+
     #timer;
-    #gameInProgess;
     #moveDelay;
     #currentSnakePositions;
+    #initialSnakeLength;
+    #applePosition;
+
+    #gameInProgess;
+
     #audioManager;
     #inputManager;
+    #eventDispatcher;
+    #events;
 
     constructor() {
-        this.#initialSnakeLength = 6;
+        this.#initialSnakeLength = 4;
         this.#grid = new Grid(20, 20);
         this.#snake = new Snake(this.#grid.getCenter(), this.#initialSnakeLength, directions.UP);
         this.#timer = new Timer();
-        this.#eventDispatcher = new EventDispatcher();
         this.#gameInProgess = false;
         this.#moveDelay = 150;
         this.#currentSnakePositions = [];
+        
+        this.#inputManager = new InputManager();
+        this.#inputManager.onUp(() => this.#snake.changeDirection(directions.UP));
+        this.#inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
+        this.#inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
+        this.#inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
+
         this.#audioManager = new AudioManager();
+        this.#audioManager.load('eat', '../audio/eat.wav', 0.8);
+        this.#audioManager.load('up', '../audio/wo.wav');
+        this.#audioManager.load('right', '../audio/we.wav');
+        this.#audioManager.load('down', '../audio/wa.wav');
+        this.#audioManager.load('left', '../audio/wu.wav');
+        this.#audioManager.load('bg', '../audio/Monkeys-Spinning-Monkeys.mp3', 0.3, true);
+        this.#audioManager.load('cheering', '../audio/cheering.wav', 0.3, false);
+
+        this.#eventDispatcher = new EventDispatcher();
         this.#events = {
             INIT: 'INIT',
             START: 'START',
@@ -43,37 +61,24 @@ class GameManager {
             TICK: 'TICK'
         }
         Object.freeze(this.#events);
-
-        this.#inputManager = new InputManager();
-        this.#inputManager.onUp(() => this.#snake.changeDirection(directions.UP));
-        this.#inputManager.onRight(() => this.#snake.changeDirection(directions.RIGHT));
-        this.#inputManager.onDown(() => this.#snake.changeDirection(directions.DOWN));
-        this.#inputManager.onLeft(() => this.#snake.changeDirection(directions.LEFT));
-
-        this.#audioManager.load('eat', '../audio/eat.wav', 0.8);
-        this.#audioManager.load('up', '../audio/wo.wav');
-        this.#audioManager.load('right', '../audio/we.wav');
-        this.#audioManager.load('down', '../audio/wa.wav');
-        this.#audioManager.load('left', '../audio/wu.wav');
-        this.#audioManager.load('bg', '../audio/Monkeys-Spinning-Monkeys.mp3', 0.3, true);
-        this.#audioManager.load('cheering', '../audio/cheering.wav', 0.3, false);
     }
 
     /* Public methods */
     init() {
+        this.#score = 0;
         this.#gameInProgess = false;
         this.#timer.stop();
         this.#timer.clearHandlers();;
         this.#timer.onElapsed(this.#update.bind(this));
-        this.#score = 0;
         this.#applePosition = this.#grid.getRandomCoordinate(this.#snake.getPositions());
-        this.#snake.init();
         this.#audioManager.play('bg');
 
+        //Have inputs update on game loop rather than event callback
         this.#timer.onTick(() => {
             this.#inputManager.update();
         })
 
+        
         const onEatHandler = (snakeLength) => {
             this.#score = snakeLength - this.#initialSnakeLength;
             this.#audioManager.play('eat');
@@ -83,6 +88,8 @@ class GameManager {
             this.#audioManager.play(direction.toString().toLowerCase());
         }
 
+        /* Setup snake */
+        this.#snake.init();
         this.#snake.removeOnEat(onEatHandler);
         this.#snake.onEat(onEatHandler);
         this.#snake.removeOnChangeDirection(onChangeDirectionHandler);

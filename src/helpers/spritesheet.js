@@ -1,17 +1,10 @@
 
 class SpriteSheet {
     #spriteSheet;
-    // #spriteSheetLoaded;
     #sprites;
 
     constructor(imagePath) {
         this.#spriteSheet = document.createElement('img');
-        //this.#spriteSheetLoaded = false;
-
-        // this.#spriteSheet.addEventListener('load', () => {
-        //     this.#spriteSheetLoaded = true;
-        // });
-
         this.#spriteSheet.src = imagePath;
         this.#sprites = {};
     }
