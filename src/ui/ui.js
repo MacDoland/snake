@@ -19,7 +19,7 @@ class UI {
     constructor(startScreen, gameScreen, highScoreScreen, reviewScreen) {
         this.#inputManager = new InputManager();
         this.#eventDispatcher = new EventDispatcher();
-        this.#highScoreManager = new HighScoreManager('jm-snake');
+        this.#highScoreManager = new HighScoreManager('highscores');
 
         this.#events = {
             INIT: "INIT",

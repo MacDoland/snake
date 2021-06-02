@@ -36,7 +36,7 @@ const updateGame = ({ currentSnakePositions, currentSnakeDirection, snakeLength,
     renderer.drawBulges(bulges);
     renderer.drawSnake(currentSnakePositions, currentSnakeDirection, snakeLength);
 
-    if(distanceFromApple < 2){
+    if (distanceFromApple < 2) {
         renderer.drawSnakeMouth(currentSnakePositions[0], currentSnakeDirection);
     }
 
