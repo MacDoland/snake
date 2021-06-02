@@ -201,7 +201,7 @@ class UI {
 
             if (typeof (nameInput.value) === 'string' && nameInput.value.length > 0) {
                 scoreButton.removeEventListener('click', submitScoreAction);
-                this.#highScoreManager.addHighScore(nameInput.value, score);
+                this.#highScoreManager.addHighScore(nameInput.value.replace(/[^0-9a-z ]/gi, ''), score);
 
                 this.#showHighScoreScreen();
                 this.#eventDispatcher.dispatch(this.#events.SHOWHIGHSCORES);
