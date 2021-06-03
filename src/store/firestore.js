@@ -5,43 +5,61 @@ import "firebase/database";
 
 class FirestoreDatabase {
     #database;
-    #data;
     #key;
+    #hasAuthed;
     constructor(key) {
         this.#key = key;
         this.#database = firebase.database;
-        this.#data = [];
+        this.#hasAuthed = false;
 
         firebase.initializeApp(firebaseConfig);
 
         firebase.auth().signInAnonymously()
             .then(() => {
-                const dbRef = this.#database().ref(this.#key);
-                dbRef.get().then((snapshot) => {
-                    if (snapshot.exists()) {
-                        this.#data = JSON.parse(snapshot.val());
-                    } else {
-                        console.log("No data available");
-                        this.#data = [];
-                    }
-                }).catch((error) => {
-                    console.error(error);
-                });
+                this.#hasAuthed = true;
             })
             .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
+                //error with auth
+                console.error(error);
             });
     }
 
     get() {
-        return this.#data;
+        return new Promise((resolve, reject) => {
+            const dbRef = this.#database().ref(this.#key);
+            dbRef.get().then((snapshot) => {
+                if (snapshot.exists()) {
+                    resolve(JSON.parse(snapshot.val()));
+                } else {
+                    console.log("No data available");
+                    resolve(JSON.parse([]));
+                }
+            }).catch((error) => {
+                reject(error);
+            });
+        })
     }
 
     set(entry) {
-        this.#data.push(entry);
-        const dbRef = this.#database().ref(this.#key);
-        dbRef.set(JSON.stringify(this.#data));
+        return new Promise((resolve, reject) => {
+            firebase.auth().signInAnonymously()
+                .then(() => {
+                    this.#hasAuthed = true;
+
+                    if (this.#hasAuthed) {
+                        this.get().then((highscores) => {
+                            highscores.push(entry);
+                            const dbRef = this.#database().ref(this.#key);
+                            dbRef.set(JSON.stringify(highscores));
+                            resolve();
+                        })
+                    }
+                })
+                .catch((error) => {
+                    //error with auth
+                    reject(error);
+                });
+        })
     }
 }
 

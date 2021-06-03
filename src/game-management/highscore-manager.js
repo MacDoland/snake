@@ -5,7 +5,7 @@ class HighScoreManager {
     #database;
 
     constructor(key) {
-        this.#database = window.location.hostname === 'localhost' ? new LocalStore(key) : new FirestoreDatabase(key);
+        this.#database = window.location.hostname === 'localhost' ? new FirestoreDatabase(key) : new FirestoreDatabase(key);
     }
 
     getHighScores() {
@@ -13,13 +13,23 @@ class HighScoreManager {
     }
 
     addHighScore(name, value) {
-        this.#database.set({ name, value, date: new Date().toISOString() });
+        return this.#database.set({ name, value, date: new Date().toISOString() });
     }
 
     getTopTen() {
-        return this.#database.get()
-            .sort(this.#compare)
-            .filter((element, index) => index < 10);
+        return new Promise((resolve, reject) => {
+            this.#database.get().then((highscores) => {
+                if(Array.isArray(highscores)){
+                    let sortedHighScores = highscores.sort(this.#compare)
+                    .filter((element, index) => index < 10);
+                    resolve(sortedHighScores);
+                }
+                else{
+                    reject();
+                }
+                
+            });
+        });
     }
 
     #compare(a, b) {

@@ -175,7 +175,9 @@ class UI {
         this.#show(this.#highScoreScreen);
         this.#hide(this.#reviewScreen);
 
-        this.renderHighScores(this.#highScoreManager.getTopTen());
+        this.#highScoreManager.getTopTen().then((highscores) => {
+            this.renderHighScores(highscores);
+        });
 
         const backToMenuButton = this.#highScoreScreen.querySelector('#back-button');
         const backToMenuAction = () => {
@@ -201,10 +203,10 @@ class UI {
 
             if (typeof (nameInput.value) === 'string' && nameInput.value.length > 0) {
                 scoreButton.removeEventListener('click', submitScoreAction);
-                this.#highScoreManager.addHighScore(nameInput.value.replace(/[^0-9a-z ]/gi, ''), score);
-
-                this.#showHighScoreScreen();
-                this.#eventDispatcher.dispatch(this.#events.SHOWHIGHSCORES);
+                this.#highScoreManager.addHighScore(nameInput.value.replace(/[^0-9a-z ]/gi, ''), score).then(() => {
+                    this.#showHighScoreScreen();
+                    this.#eventDispatcher.dispatch(this.#events.SHOWHIGHSCORES);
+                });
             }
             else {
                 alert('Please enter a name');
